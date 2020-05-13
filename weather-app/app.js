@@ -1,4 +1,4 @@
-const { printLocationWeather, msgs } = require('./utils');
+const { printLocationWeather, msgs } = require('./utils/utils');
 
 const locationName = process.argv[2];
 
