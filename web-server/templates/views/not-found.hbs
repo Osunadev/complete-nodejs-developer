@@ -3,16 +3,15 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/img/weather.png" />
         <link rel="stylesheet" href="/css/styles.css" />
-        <title>Home</title>
+        <title>Page Not Found!</title>
     </head>
     <body>
-        <div>
-            <h1>Weather App</h1>
-            <form action="">
-                <input type="text" name="address-input" />
-                <input type="button" value="Send Info" />
-            </form>
+        <div class="main-content">
+            {{>header}}
+            <p>{{ notFoundMsg }}</p>
         </div>
+        {{>footer}}
     </body>
 </html>

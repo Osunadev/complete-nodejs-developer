@@ -1,7 +1,5 @@
 const got = require('got');
 
-const { msgs } = require('./utils');
-
 // Mapbox - Geolocation APIx
 const { MAPBOX_ACCESS_KEY } = require('./api_keys');
 
@@ -27,7 +25,7 @@ const getPlaceCoordinates = async (locationName, callback) => {
     try {
         const {
             body: { features },
-        } = await got(geocodingQueryString);
+        } = await got(geocodingQueryString, { responseType: 'json' });
 
         // If we get back a features array, it means it found the location
         if (features) {
@@ -43,17 +41,11 @@ const getPlaceCoordinates = async (locationName, callback) => {
 
             callback(null, locationObj);
         } else {
-            callback(
-                msgs.error(
-                    "We couldn't find your location, pleace check for typos."
-                )
-            );
+            callback("We couldn't find your location, pleace check for typos.");
         }
     } catch (error) {
         callback(
-            msgs.error(
-                "We couldn't connect to the server, check your internet connection!"
-            )
+            "We couldn't connect to the server, check your internet connection!"
         );
     }
 };
