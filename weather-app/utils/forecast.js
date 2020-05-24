@@ -1,7 +1,5 @@
 const got = require('got');
 
-const { msgs } = require('./utils');
-
 // Weatherstack - Forecast API
 const { WEATHERSTACK_ACCESS_KEY } = require('./api_keys');
 
@@ -27,7 +25,7 @@ const getCoordinatesForecast = async ({ longitude, latitude }, callback) => {
         });
 
         if (body.error) {
-            callback(msgs.error('Unable to find location!'));
+            callback('Unable to find location!');
         } else {
             const {
                 temperature,
@@ -45,9 +43,7 @@ const getCoordinatesForecast = async ({ longitude, latitude }, callback) => {
         }
     } catch (error) {
         callback(
-            msgs.error(
-                "We couldn't connect to the server, check your internet connection!"
-            )
+            "Forecast: We couldn't connect to the server, check your internet connection!"
         );
     }
 };

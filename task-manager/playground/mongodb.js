@@ -1,4 +1,4 @@
-// CRUD
+// EXAMPLE OF USING DIRECTLY THE MONGODB DRIVER INSTEAD OF MONGOOSE
 
 const mongodb = require('mongodb');
 const { ObjectID, MongoClient } = mongodb;

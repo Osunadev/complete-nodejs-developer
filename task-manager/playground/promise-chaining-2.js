@@ -5,7 +5,7 @@ async function deleteAndCountTasks(taskId) {
     const deletedTask = await Task.findByIdAndDelete(taskId);
     console.log('Task deleted: ' + deletedTask);
 
-    return await Task.countDocumen({ completed: false });
+    return await Task.countDocument({ completed: false });
 }
 
 deleteAndCountTasks('5ec081894abb4211cec71ac3')

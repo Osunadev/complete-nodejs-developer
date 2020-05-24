@@ -21,9 +21,7 @@ const listNotes = () => {
 const addNote = (title, body) => {
     const notes = loadNotes();
 
-    const duplicateNote = notes.find((note) => note.title === title);
-
-    debugger;
+    const duplicateNote = notes.find(note => note.title === title);
 
     if (!duplicateNote) {
         notes.push({ title, body });
@@ -34,10 +32,10 @@ const addNote = (title, body) => {
     }
 };
 
-const removeNote = (title) => {
+const removeNote = title => {
     const notes = loadNotes();
 
-    const updatedNotes = notes.filter((note) => note.title !== title);
+    const updatedNotes = notes.filter(note => note.title !== title);
 
     if (updatedNotes.length === notes.length) {
         console.log(msgs.error('The note titled ' + title + " doesn't exist"));
@@ -49,16 +47,16 @@ const removeNote = (title) => {
     saveNotes(updatedNotes);
 };
 
-const saveNotes = (notes) => {
+const saveNotes = notes => {
     const stringify = JSON.stringify(notes);
 
     fs.writeFileSync('notes.json', stringify);
 };
 
-const readNote = (title) => {
+const readNote = title => {
     const notes = loadNotes();
 
-    const existingNote = notes.find((note) => note.title === title);
+    const existingNote = notes.find(note => note.title === title);
 
     if (existingNote) {
         console.log(msgs.title(existingNote.title));
