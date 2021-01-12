@@ -1,6 +1,6 @@
 const express = require('express');
 
-require('dotenv').config(); // Loading environment variables into process.ENV from .env file
+require('dotenv').config(); // Loading environment variables into process.env from .env file
 require('./db/mongoose'); // We just want that the file runs so we can connect to our database
 
 // Importing our routers
@@ -15,5 +15,5 @@ app.use(userRouter);
 app.use(taskRouter);
 
 app.listen(port, () => {
-    console.log('Server is up on port ' + port);
+  console.log('Server is up on port ' + port);
 });
