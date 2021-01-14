@@ -4,6 +4,9 @@ const User = require('../models/user');
 // Multer middleware to manager multipart/form-data
 const multer = require('multer');
 
+// Sharp package to resize and change images formats
+const sharp = require('sharp');
+
 // Importing our middlewares
 const auth = require('../middleware/auth');
 
@@ -105,8 +108,6 @@ router.delete('/users/me', auth, async (req, res) => {
 });
 
 const upload = multer({
-  // This is the destination where our images are going to be uploaded
-  dest: 'avatars',
   limits: {
     fileSize: 1024 * 1024, // 1MB
   },
@@ -127,7 +128,17 @@ router.post(
   '/users/me/avatar',
   auth,
   upload.single('avatar'),
-  (req, res) => {
+  async (req, res) => {
+    const buffer = await sharp(req.file.buffer)
+      .resize({
+        width: 250,
+        height: 250,
+      })
+      .png()
+      .toBuffer();
+    req.user.avatar = buffer;
+
+    await req.user.save();
     res.send();
   },
   // This is our custom Error Handler, overriding the Express Error Handling Implementation
@@ -136,5 +147,27 @@ router.post(
     res.status(400).send({ error: error.message });
   }
 );
+
+router.delete('/users/me/avatar', auth, async (req, res) => {
+  req.user.avatar = undefined;
+
+  await req.user.save();
+  res.send();
+});
+
+router.get('/users/:id/avatar', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user || !user.avatar) {
+      throw new Error();
+    }
+
+    res.set('Content-Type', 'image/png');
+    res.send(user.avatar);
+  } catch (err) {
+    res.status(404).send();
+  }
+});
 
 module.exports = router;

@@ -88,6 +88,7 @@ userSchema.methods.toJSON = function () {
   // We're deleting the private properties of the object that we don't wanna send to the user
   delete userObject.password;
   delete userObject.tokens;
+  delete userObject.avatar;
 
   return userObject;
 };
