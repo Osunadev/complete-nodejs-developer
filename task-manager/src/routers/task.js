@@ -48,11 +48,7 @@ router.get('/tasks', auth, async (req, res) => {
     const isDirValid = validDirOpts.includes(req.query.direction);
     const direction = isDirValid ? req.query.direction : 'asc'; // 'asc' is the default direction
 
-    if (sortBy === 'createdAt') {
-      sort.createdAt = direction === 'asc' ? 1 : -1;
-    } else {
-      sort.updatedAt = direction === 'asc' ? 1 : -1;
-    }
+    sort[sortBy] = direction === 'asc' ? 1 : -1;
   }
 
   try {

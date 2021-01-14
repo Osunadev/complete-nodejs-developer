@@ -1,6 +1,9 @@
 const express = require('express');
 const User = require('../models/user');
 
+// Multer middleware to manager multipart/form-data
+const multer = require('multer');
+
 // Importing our middlewares
 const auth = require('../middleware/auth');
 
@@ -100,5 +103,38 @@ router.delete('/users/me', auth, async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+const upload = multer({
+  // This is the destination where our images are going to be uploaded
+  dest: 'avatars',
+  limits: {
+    fileSize: 1024 * 1024, // 1MB
+  },
+  fileFilter(req, file, cb) {
+    const imgRegex = /\.(jpe?g|png)$/;
+
+    if (!file.originalname.match(imgRegex)) {
+      return cb(
+        new Error('You must upload an image file in format: jpg, jpeg or png')
+      );
+    }
+
+    cb(undefined, true);
+  },
+});
+
+router.post(
+  '/users/me/avatar',
+  auth,
+  upload.single('avatar'),
+  (req, res) => {
+    res.send();
+  },
+  // This is our custom Error Handler, overriding the Express Error Handling Implementation
+  // Where it sent back an HTML response with the error message at the top.
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
 
 module.exports = router;
