@@ -1,6 +1,5 @@
 const express = require('express');
 
-require('dotenv').config(); // Loading environment variables into process.env from .env file
 require('./db/mongoose'); // We just want that the file runs so we can connect to our database
 
 // Importing our routers
