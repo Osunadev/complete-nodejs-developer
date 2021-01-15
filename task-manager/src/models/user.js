@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Task = require('./task');
 
+const { jwtSecret } = require('../config');
+
 // Our userSchema for the User Model, using data validation and sanitization
 const userSchema = mongoose.Schema(
   {
@@ -96,7 +98,7 @@ userSchema.methods.toJSON = function () {
 // We implemented a custom generateAuthToken method to be attached to our user instance
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+  const token = jwt.sign({ _id: user._id.toString() }, jwtSecret);
 
   user.tokens = user.tokens.concat({ token });
   await user.save();
