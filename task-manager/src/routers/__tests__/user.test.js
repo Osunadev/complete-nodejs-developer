@@ -5,10 +5,12 @@ const app = require('../../app');
 const User = require('../../models/user');
 
 const emailsService = require('../../services/emails');
-const { userOne, setupDatabase } = require('../fixtures/db');
+const { users, setupDatabase } = require('../fixtures/db');
 
 // Mocked emails service functions in services/__mocks__
 jest.mock('../../services/emails');
+
+const { userOne } = users;
 
 beforeEach(async () => {
   await setupDatabase();
