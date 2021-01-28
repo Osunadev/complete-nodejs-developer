@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App</title>
+  </head>
+  <body>
+    <h1>Chat App</h1>
+    <button id="increment">+1</button>
+    <!-- 
+      This works because we wrap our HTTP server in Socket.io
+      and it intercepts requests for "/socket.io/socket.io.js" and 
+      sends the appropriate response automatically.
+
+      The SocketIO server on the backend will wait for a request 
+      to "/socket.io/socket.io.js" and then serve that file for us.
+    -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chat.js"></script>
+  </body>
+</html>
