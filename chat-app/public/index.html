@@ -3,26 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/styles.min.css" />
     <title>Chat App</title>
   </head>
   <body>
-    <h1>Chat App</h1>
-    <p>Send chat message!</p>
-    <form id="message-form">
-      <label>Text Message</label>
-      <input type="text" name="message" id="message" />
-      <button>Send</button>
-    </form>
-    <button id="send-location">Send location</button>
-    <!-- 
-      This works because we wrap our HTTP server in Socket.io
-      and it intercepts requests for "/socket.io/socket.io.js" and 
-      sends the appropriate response automatically.
-
-      The SocketIO server on the backend will wait for a request 
-      to "/socket.io/socket.io.js" and then serve that file for us.
-    -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/chat.js"></script>
+    <div class="centered-form">
+      <div class="centered-form__box">
+        <h1>Join</h1>
+        <form action="/chat.html">
+          <label for="username">Display name</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Display name"
+            required
+          />
+          <label for="room">Room</label>
+          <input
+            type="text"
+            name="room"
+            id="room"
+            placeholder="Room"
+            required
+          />
+          <button>Join</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

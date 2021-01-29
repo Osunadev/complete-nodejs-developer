@@ -1,6 +1,11 @@
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
+const Filter = require('bad-words');
+const {
+  generateMessage,
+  generateLocationMessage,
+} = require('./utils/messages');
 /*
   We're re-utilizing our same port, so that our Express app
   and socket.io Server run on the same http server. Remember that
@@ -30,20 +35,41 @@ app.use(express.static('public'));
 io.on('connection', socket => {
   console.log('New WebSocket connection');
 
-  socket.emit('message', 'Welcome!');
+  socket.on('sendMessage', (message, callback) => {
+    const filter = new Filter();
+    const msgHasBadWords = filter.isProfane(message);
 
-  socket.broadcast.emit('message', 'A new user has joined!');
+    if (msgHasBadWords) {
+      return callback('Profane message, avoid using bad words!');
+    }
 
-  socket.on('sendMessage', message => {
-    io.emit('message', message);
+    io.to('something').emit('message', generateMessage(message));
+    // This callback is to acknowledge that the server received client's message
+    callback();
   });
 
-  socket.on('sendLocation', ({ latitude, longitude }) => {
-    io.emit('message', `https://google.com/maps?q=${latitude},${longitude}`);
+  socket.on('sendLocation', ({ latitude, longitude }, callback) => {
+    io.emit(
+      'locationMessage',
+      generateLocationMessage(
+        `https://google.com/maps?q=${latitude},${longitude}`
+      )
+    );
+
+    callback();
+  });
+
+  socket.on('join', ({ username, room }) => {
+    socket.join(room);
+
+    socket.emit('message', generateMessage('Welcome!'));
+    socket.broadcast
+      .to(room)
+      .emit('message', generateMessage(`${username} has joined!`));
   });
 
   socket.on('disconnect', () => {
-    io.emit('message', 'User has left!');
+    io.emit('message', generateMessage('User has left!'));
   });
 });
 
