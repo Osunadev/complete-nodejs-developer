@@ -22,18 +22,28 @@ const port = process.env.PORT || 5000;
 
 app.use(express.static('public'));
 
-let count = 0;
-
+/*
+  socket.emit - Emits to the single client
+  io.emit - Emits to every client
+  socket.broadcast.emit - Emits to every client except the particular client
+*/
 io.on('connection', socket => {
   console.log('New WebSocket connection');
 
-  // This is emitting the event only to the particular connection
-  socket.emit('countUpdated', count);
+  socket.emit('message', 'Welcome!');
 
-  socket.on('increment', () => {
-    count++;
-    // This is emitting the event to every single connection
-    io.emit('countUpdated', count);
+  socket.broadcast.emit('message', 'A new user has joined!');
+
+  socket.on('sendMessage', message => {
+    io.emit('message', message);
+  });
+
+  socket.on('sendLocation', ({ latitude, longitude }) => {
+    io.emit('message', `https://google.com/maps?q=${latitude},${longitude}`);
+  });
+
+  socket.on('disconnect', () => {
+    io.emit('message', 'User has left!');
   });
 });
 

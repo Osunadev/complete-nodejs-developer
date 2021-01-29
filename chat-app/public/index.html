@@ -7,7 +7,13 @@
   </head>
   <body>
     <h1>Chat App</h1>
-    <button id="increment">+1</button>
+    <p>Send chat message!</p>
+    <form id="message-form">
+      <label>Text Message</label>
+      <input type="text" name="message" id="message" />
+      <button>Send</button>
+    </form>
+    <button id="send-location">Send location</button>
     <!-- 
       This works because we wrap our HTTP server in Socket.io
       and it intercepts requests for "/socket.io/socket.io.js" and 
