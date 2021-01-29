@@ -36,8 +36,6 @@ $messageForm.addEventListener('submit', e => {
   e.preventDefault();
   $messageFormButton.setAttribute('disabled', 'disabled');
 
-  // This callback of the 3rd argument is an acknowledgement function that runs
-  // after the server acknowledges that it received the message
   socket.emit('sendMessage', $messageFormInput.value, error => {
     $messageFormButton.removeAttribute('disabled');
     $messageFormInput.value = '';
